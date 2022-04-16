@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const SignUp = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
@@ -68,6 +69,7 @@ const SignUp = () => {
           Please Login.
         </span>
       </p>
+      <SocialLogin />
     </div>
   );
 };
