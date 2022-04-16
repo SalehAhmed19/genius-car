@@ -1,6 +1,9 @@
 import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useSendPasswordResetEmail,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import SocialLogin from "../SocialLogin/SocialLogin";
@@ -10,6 +13,7 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
   const [signInWithEmilAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const navigate = useNavigate();
@@ -24,6 +28,11 @@ const Login = () => {
   }
   const navigateToSignUp = (e) => {
     navigate("/signup");
+  };
+  const resetPassword = async () => {
+    const email = emailRef.current.value;
+    await sendPasswordResetEmail(email);
+    alert("Sent email");
   };
   return (
     <div className="w-75 mx-auto mt-5">
@@ -51,14 +60,24 @@ const Login = () => {
             required
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button
+          variant="primary"
+          type="submit"
+          className="w-50 d-block mx-auto"
+        >
           Login
         </Button>
       </Form>
-      <p>
+      <p className="text-center">
         New to Genius Car?
         <span className="text-warning btn btn-link" onClick={navigateToSignUp}>
           Please Register.
+        </span>
+      </p>
+      <p className="text-center">
+        Forgot Password?
+        <span className="text-primary btn btn-link" onClick={resetPassword}>
+          Reset Password
         </span>
       </p>
       <SocialLogin />
