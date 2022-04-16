@@ -1,8 +1,12 @@
 import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import auth from "../../../firebase.init";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const SignUp = () => {
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
   const nameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -12,8 +16,11 @@ const SignUp = () => {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log(name, email, password);
+    createUserWithEmailAndPassword(email, password);
   };
+  if (user) {
+    navigate("/home");
+  }
   const navigateToSignUp = (e) => {
     navigate("/login");
   };
@@ -52,12 +59,12 @@ const SignUp = () => {
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Submit
+          Sign Up
         </Button>
       </Form>
       <p>
         Already have an account?
-        <span className="text-warning btn" onClick={navigateToSignUp}>
+        <span className="text-warning btn btn-link" onClick={navigateToSignUp}>
           Please Login.
         </span>
       </p>
