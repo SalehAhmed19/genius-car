@@ -18,13 +18,15 @@ const experts = [
 
 const Experts = () => {
   return (
-    <div className="m-5">
-      <h2 className="text-primary text-center">Experts</h2>
-      <div className="container">
-        <div className="row g-4">
-          {experts.map((expert) => (
-            <Expert key={expert.id} expert={expert} />
-          ))}
+    <div id="experts">
+      <div className="m-5">
+        <h2 className="text-primary text-center">Experts</h2>
+        <div className="container">
+          <div className="row g-4">
+            {experts.map((expert) => (
+              <Expert key={expert.id} expert={expert} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
